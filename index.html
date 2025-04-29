@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 4</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            display: block;
+        }
+        
+        .chart-container {
+            width: 100%;
+            max-width: 1000px; /* Increased from 700px */
+            margin: 40px auto; /* Increased vertical margin */
+            display: block;
+            border: none;
+        }
+        
+        .chart {
+            width: 100%;
+            height: 550px; /* Increased from 400px */
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Chicago Parking Permits Analysis</h1>
+    <li style="text-align: center;"><strong>BUFFER</strong>: Whether the parking segment is a "buffer zone" (Y = Yes, N = No, a "standard/residential" segment) </li>
+    <li style="text-align: center;"><strong>STATUS</strong>: Permit zone status (ACTIVE or RESCINDED - the zone has been cancelled (with signs removed, etc.)).</li>
+    <li style="text-align: center;"><strong>STREET NAME</strong>: Name of the street where the permit applies.</li>
+    <li style="text-align: center;"><strong>WARD - LOW</strong>: The ward (district) number covering the permit area.</li>
+    <li style="text-align: center;"><strong>STREET TYPE</strong>: Type of street (e.g., Avenue, Boulevard, Street, Place).</li>
+    <br><hr><br>
+    <p style="text-align: center;">This bar chart compares the number of permits located in buffer zones versus standard zones.</p>
+
+
+    
+    
+    <div class="chart-container">
+        <div id="vis1" class="chart"></div>
+    </div>
+    <br><hr><br>
+
+    <p style="text-align: center;">This normalized bar chart shows the percentage of active and rescinded permits per ward, with the ability to filter by buffer status.</p>
+    <div class="chart-container">
+        <div id="vis2" class="chart"></div>
+    </div>
+    <br><hr><br>
+    
+    <p style="text-align: center;">This bar chart displays the distribution of permits by street type (e.g., AVE, ST, BLVD, PL), with a dropdown to filter by ward.</p>
+    <div class="chart-container">
+        <div id="vis3" class="chart"></div>
+    </div>
+    <br><hr><br>
+
+    <p style="text-align: center;">The left scatterplot shows the top 30 streets by number of permits. Selecting a street reveals the breakdown of permit statuses (ACTIVE vs RESCINDED) in a side-by-side bar chart.</p>
+    <div class="chart-container">
+        <div id="vis4" class="chart"></div>
+    </div>
+    <br><hr><br>
+
+    <p style="text-align: center;">Search for a specific street name to view the number of permits issued. Displays up to 30 matching streets, ranked by permit count.</p>
+    <div class="chart-container">
+        <div id="vis5" class="chart"></div>
+    </div>
+    <br><hr><br>
+
+    <p style="text-align: center;">Dynamic chart that lets you filter by ward, street type, and address range to find the top 20 streets with the highest number of permits.</p>
+    <div class="chart-container">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <label for="wardDropdown">Select Ward:</label>
+    <select id="wardDropdown" style="margin: 0 10px;">
+      <option value="">All</option>
+  <option value="1">Ward 1</option>
+  <option value="2">Ward 2</option>
+  <option value="3">Ward 3</option>
+  <option value="4">Ward 4</option>
+  <option value="5">Ward 5</option>
+  <option value="6">Ward 6</option>
+  <option value="7">Ward 7</option>
+  <option value="8">Ward 8</option>
+  <option value="9">Ward 9</option>
+  <option value="10">Ward 10</option>
+  <option value="11">Ward 11</option>
+  <option value="12">Ward 12</option>
+  <option value="13">Ward 13</option>
+  <option value="14">Ward 14</option>
+  <option value="15">Ward 15</option>
+  <option value="16">Ward 16</option>
+  <option value="17">Ward 17</option>
+  <option value="18">Ward 18</option>
+  <option value="19">Ward 19</option>
+  <option value="20">Ward 20</option>
+  <option value="21">Ward 21</option>
+  <option value="22">Ward 22</option>
+  <option value="23">Ward 23</option>
+  <option value="24">Ward 24</option>
+  <option value="25">Ward 25</option>
+  <option value="26">Ward 26</option>
+  <option value="27">Ward 27</option>
+  <option value="28">Ward 28</option>
+  <option value="29">Ward 29</option>
+  <option value="30">Ward 30</option>
+  <option value="31">Ward 31</option>
+  <option value="32">Ward 32</option>
+  <option value="33">Ward 33</option>
+  <option value="34">Ward 34</option>
+  <option value="35">Ward 35</option>
+  <option value="36">Ward 36</option>
+  <option value="37">Ward 37</option>
+  <option value="38">Ward 38</option>
+  <option value="39">Ward 39</option>
+  <option value="40">Ward 40</option>
+  <option value="41">Ward 41</option>
+  <option value="42">Ward 42</option>
+  <option value="43">Ward 43</option>
+  <option value="44">Ward 44</option>
+  <option value="45">Ward 45</option>
+  <option value="46">Ward 46</option>
+  <option value="47">Ward 47</option>
+  <option value="48">Ward 48</option>
+  <option value="49">Ward 49</option>
+  <option value="50">Ward 50</option>
+    </select>
+
+    <label for="streetTypeDropdown">Street Type:</label>
+    <select id="streetTypeDropdown" style="margin: 0 10px;">
+      <option value="">All</option>
+      <option value="AVE">Avenue (AVE)</option>
+      <option value="BLVD">Boulevard (BLVD)</option>
+      <option value="ST">Street (ST)</option>
+      <option value="PL">Place (PL)</option>
+    </select>
+
+
+    <br><br>
+
+    <label>Address Range Filter:</label>
+    <input type="range" id="addressRange" min="0" max="9000" step="100" value="0" style="width:300px;">
+    <span id="rangeValue">0</span>
+  </div>
+</div>
+    <div class="chart-container">
+        <div id="vis6" class="chart"></div>
+    </div>
+    <br><hr><br>
+
+    <div class="chart-container">
+        <div id="vis7" class="chart"></div>
+    </div>
+
+    <script>
+        // This function will modify the Vega-Lite specs to ensure single column layout
+        function embedChart(id, spec) {
+            let modifiedSpec = {
+                ...spec,
+                autosize: {
+                    type: "fit",
+                    contains: "padding"
+                }
+            };
+        
+            if (id !== "vis7") {
+                modifiedSpec = {
+                    ...modifiedSpec,
+                    width: "container",
+                    height: 500
+                };
+            }
+            
+            vegaEmbed("#" + id, modifiedSpec, {
+                renderer: "svg",
+                actions: false
+            });
+        }
+
+        
+        // Load and execute the main.js file
+        const script = document.createElement('script');
+        script.src = 'main.js';
+        script.onload = function() {
+            // Override the default embed calls with our custom function
+            setTimeout(function() {
+                embedChart("vis1", spec1);
+                embedChart("vis2", spec2);
+                embedChart("vis3", spec3);
+                embedChart("vis4", spec4);
+                embedChart("vis5", spec5);
+                embedChart("vis7", spec7);
+                embedChart("vis6", spec6);
+            }, 100);
+        };
+        document.body.appendChild(script);
+    </script>
+</body>
+</html>
